@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace ContosoService.Features.Items;
 public class Item
 {
@@ -7,7 +9,11 @@ public class Item
   public decimal? Price { get; set; }
 
   public int? ParentId { get; set; }
+
+  [JsonIgnore]
   public Item? Parent { get; set; }
+
+  [JsonIgnore]
   public ICollection<Item> Variants { get; set; } = [];
 
   public DateTime CreatedAt { get; set; }

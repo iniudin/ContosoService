@@ -27,6 +27,7 @@ public class ItemService(AppDbContext context, IItemRepository itemRepository) :
             Price = item.Price,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
+            ParentId = item.ParentId,
             IsDeleted = false
         };
         _itemRepository.Create(newItem);
@@ -43,7 +44,7 @@ public class ItemService(AppDbContext context, IItemRepository itemRepository) :
         updatedItem.Name = item.Name;
         updatedItem.Price = item.Price;
         updatedItem.UpdatedAt = DateTime.UtcNow;
-
+        updatedItem.ParentId = item.ParentId;
         _itemRepository.Update(updatedItem);
         await _context.SaveChangesAsync();
 

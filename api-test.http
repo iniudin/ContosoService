@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
     "name": "Item 1",
-    "price": 9.99
+    "price": 9.9
 }
 
 ### Update Item
@@ -24,3 +24,16 @@ Content-Type: application/json
 
 ### Delete Item
 DELETE http://localhost:5083/items/1
+
+### Create Variant
+POST http://localhost:5083/items
+Content-Type: application/json
+
+{
+    "name": "Pizza - Special Deluxe",
+    "price": 29.99,
+    "parentId": 1
+}
+
+### Get Variant List
+GET http://localhost:5083/items/1/variants
