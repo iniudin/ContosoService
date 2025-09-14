@@ -2,27 +2,24 @@ namespace ContosoService.Features.Items;
 
 public interface IItemService
 {
-    Task<List<Item>> List();
-    Task<Item?> Find(int id);
-    Task<Item> Create(ItemDto item);
-    Task<Item?> Update(int id, ItemDto item);
-    Task<bool> Delete(int id);
+    Task<Item?> GetItem(int id);
+    Task<List<Item>> GetItems();
+    Task<List<Item>> GetVariants(int parentId);
+    Task<Item> CreateItem(ItemDto item);
+    Task<Item?> UpdateItem(int id, ItemDto item);
+    Task<bool> DeleteItem(int id);
 }
 
 
-public class ItemService : IItemService
+public class ItemService(AppDbContext context, IItemRepository itemRepository) : IItemService
 {
-    private readonly IItemRepository _itemRepository;
-    private readonly AppDbContext _context;
-    public ItemService(AppDbContext context, IItemRepository itemRepository)
-    {
-        _context = context;
-        _itemRepository = itemRepository;
-    }
+    private readonly IItemRepository _itemRepository = itemRepository;
+    private readonly AppDbContext _context = context;
 
-    public async Task<List<Item>> List() => await _itemRepository.GetAllAsync();
-    public async Task<Item?> Find(int id) => await _itemRepository.FindByIdAsync(id);
-    public async Task<Item> Create(ItemDto item)
+    public async Task<Item?> GetItem(int id) => await _itemRepository.FindByIdAsync(id);
+    public async Task<List<Item>> GetItems() => await _itemRepository.GetAllAsync();
+    public async Task<List<Item>> GetVariants(int parentId) => await _itemRepository.GetVariantsAsync(parentId);
+    public async Task<Item> CreateItem(ItemDto item)
     {
         var newItem = new Item
         {
@@ -37,7 +34,7 @@ public class ItemService : IItemService
 
         return newItem;
     }
-    public async Task<Item?> Update(int id, ItemDto item)
+    public async Task<Item?> UpdateItem(int id, ItemDto item)
     {
         var existingItem = await _itemRepository.FindByIdAsync(id);
         if (existingItem is null) return null;
@@ -52,7 +49,7 @@ public class ItemService : IItemService
 
         return updatedItem;
     }
-    public async Task<bool> Delete(int id)
+    public async Task<bool> DeleteItem(int id)
     {
         var existingItem = await _itemRepository.FindByIdAsync(id);
         if (existingItem is null) return false;

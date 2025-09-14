@@ -15,8 +15,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
-    config.DocumentName = "ContosoPizza";
-    config.Title = "Contoso Pizza API";
+    config.DocumentName = "ContosoServiceAPI";
+    config.Title = "Contoso Service API";
     config.Version = "v1";
 });
 
@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUi(config =>
     {
-        config.DocumentTitle = "Contoso Pizza API";
+        config.DocumentTitle = "Contoso Service API";
         config.Path = "/swagger";
         config.DocumentPath = "/swagger/{documentName}/swagger.json";
         config.DocExpansion = "list";

@@ -7,25 +7,23 @@ public interface IItemRepository
   Task<Item?> FindByIdAsync(int id);
   Task<Item?> FindBySkuAsync(string sku);
   Task<List<Item>> GetAllAsync();
+  Task<List<Item>> GetVariantsAsync(int parentId);
   void Create(Item item);
   void Update(Item item);
 }
 
-public class ItemRepository : IItemRepository
+public class ItemRepository(AppDbContext context) : IItemRepository
 {
-    private readonly AppDbContext _context;
+    public async Task<Item?> FindByIdAsync(int id) => await context.Items.FindAsync(id);
 
-    public ItemRepository(AppDbContext context) => _context = context;
+    public async Task<Item?> FindBySkuAsync(string sku) => await context.Items.FirstOrDefaultAsync(i => i.Sku == sku);
 
-    public async Task<Item?> FindByIdAsync(int id) => await _context.Items.FindAsync(id);
+    public async Task<List<Item>> GetAllAsync() => await context.Items.ToListAsync();
 
-    public async Task<Item?> FindBySkuAsync(string sku) => await _context.Items.FirstOrDefaultAsync(i => i.Sku == sku);
+    public async Task<List<Item>> GetVariantsAsync(int parentId) => await context.Items.Where(i => i.ParentId == parentId).ToListAsync();
 
-    public async Task<List<Item>> GetAllAsync() => await _context.Items.ToListAsync();
+    public void Create(Item item) => context.Items.Add(item);
 
-    public void Create(Item item) => _context.Items.Add(item);
-
-    public void Update(Item item) => _context.Items.Update(item);
-
+    public void Update(Item item) => context.Items.Update(item);
 
 }
