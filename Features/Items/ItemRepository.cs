@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ContosoService.Core;
 
 namespace ContosoService.Features.Items;
 
@@ -18,7 +19,7 @@ public class ItemRepository(AppDbContext context) : IItemRepository
 
     public async Task<Item?> FindBySkuAsync(string sku) => await context.Items.FirstOrDefaultAsync(i => i.Sku == sku);
 
-    public async Task<List<Item>> GetAllAsync() => await context.Items.ToListAsync();
+    public async Task<List<Item>> GetAllAsync() => await context.Items.Where(i => i.IsDeleted == false!).ToListAsync();
 
     public async Task<List<Item>> GetVariantsAsync(int parentId) => await context.Items.Where(i => i.ParentId == parentId).ToListAsync();
 

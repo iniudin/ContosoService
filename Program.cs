@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ContosoService.Core;
 using ContosoService.Features.Items;
 
 
@@ -20,6 +21,7 @@ builder.Services.AddOpenApiDocument(config =>
     config.Version = "v1";
 });
 
+builder.Services.AddControllers();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IItemService, ItemService>();
 
@@ -38,6 +40,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/", () => "Hello World!");
-app.MapItemEndpoints();
+app.MapControllers();
 
 app.Run();

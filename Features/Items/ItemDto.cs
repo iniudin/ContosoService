@@ -1,11 +1,27 @@
 namespace ContosoService.Features.Items;
 
-public class ItemDto
-{
-    public string? Name { get; set; }
-    public decimal? Price { get; set; }
-    public int? ParentId { get; set; }
+using System.ComponentModel.DataAnnotations;
 
-    public ItemDto() { }
-    public ItemDto(Item item) => (Name, Price, ParentId) = (item.Name, item.Price, item.ParentId);
+public class CreateItemDto
+{
+    [Required(ErrorMessage = "Name is required")]
+    [MinLength(3, ErrorMessage = "Name must be at least 3 characters long")]
+    [MaxLength(100, ErrorMessage = "Name must be at most 100 characters long")]
+    public string Name { get; set; } = default!;
+    [Required(ErrorMessage = "Price is required")]
+    [Range(0, 10000, ErrorMessage = "Price must be between 0 and 10000")]
+    public int Price { get; set; }
+    [Range(0, int.MaxValue, ErrorMessage = "ParentId must be a positive integer")]
+    public int? ParentId { get; set; }
+}
+
+public class UpdateItemDto
+{
+    [MinLength(3, ErrorMessage = "Name must be at least 3 characters long")]
+    [MaxLength(100, ErrorMessage = "Name must be at most 100 characters long")]
+    public string? Name { get; set; }
+    [Range(0, 10000, ErrorMessage = "Price must be between 0 and 10000")]
+    public int? Price { get; set; }
+    [Range(0, int.MaxValue, ErrorMessage = "ParentId must be a positive integer")]
+    public int? ParentId { get; set; }
 }

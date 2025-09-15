@@ -1,12 +1,13 @@
 namespace ContosoService.Features.Items;
+using ContosoService.Core;
 
 public interface IItemService
 {
     Task<Item?> GetItem(int id);
     Task<List<Item>> GetItems();
     Task<List<Item>> GetVariants(int parentId);
-    Task<Item> CreateItem(ItemDto item);
-    Task<Item?> UpdateItem(int id, ItemDto item);
+    Task<Item> CreateItem(CreateItemDto item);
+    Task<Item?> UpdateItem(int id, UpdateItemDto item);
     Task<bool> DeleteItem(int id);
 }
 
@@ -19,7 +20,7 @@ public class ItemService(AppDbContext context, IItemRepository itemRepository) :
     public async Task<Item?> GetItem(int id) => await _itemRepository.FindByIdAsync(id);
     public async Task<List<Item>> GetItems() => await _itemRepository.GetAllAsync();
     public async Task<List<Item>> GetVariants(int parentId) => await _itemRepository.GetVariantsAsync(parentId);
-    public async Task<Item> CreateItem(ItemDto item)
+    public async Task<Item> CreateItem(CreateItemDto item)
     {
         var newItem = new Item
         {
@@ -35,20 +36,19 @@ public class ItemService(AppDbContext context, IItemRepository itemRepository) :
 
         return newItem;
     }
-    public async Task<Item?> UpdateItem(int id, ItemDto item)
+    public async Task<Item?> UpdateItem(int id, UpdateItemDto item)
     {
         var existingItem = await _itemRepository.FindByIdAsync(id);
         if (existingItem is null) return null;
 
-        var updatedItem = existingItem;
-        updatedItem.Name = item.Name;
-        updatedItem.Price = item.Price;
-        updatedItem.UpdatedAt = DateTime.UtcNow;
-        updatedItem.ParentId = item.ParentId;
-        _itemRepository.Update(updatedItem);
+        existingItem.Name = item.Name ?? existingItem.Name;
+        existingItem.Price = item.Price ?? existingItem.Price;
+        existingItem.ParentId = item.ParentId ?? existingItem.ParentId;
+        existingItem.UpdatedAt = DateTime.UtcNow;
+        _itemRepository.Update(existingItem);
         await _context.SaveChangesAsync();
 
-        return updatedItem;
+        return existingItem;
     }
     public async Task<bool> DeleteItem(int id)
     {

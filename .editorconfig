@@ -1,0 +1,44 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# Top-level configuration file for a C# project
+root = true
+
+# General formatting for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# specific settings
+[*.cs]
+indent_style = space
+indent_size = 4
+tab_width = 4
+# Mengatur penggunaan var untuk tipe bawaan
+csharp_style_var_for_built_in_types = true:silent
+# Mengatur penggunaan var untuk tipe yang dapat disimpulkan
+csharp_style_var_when_type_is_apparent = true:silent
+# Mengharuskan semua blok gaya untuk dikurung kurawal
+csharp_prefer_braces = true:silent
+# Mengatur penggunaan indentasi gaya ekspresi untuk blok metode
+csharp_style_expression_bodied_methods = false:silent
+# Mengatur penggunaan indentasi gaya ekspresi untuk blok properti
+csharp_style_expression_bodied_properties = false:silent
+# Mengatur penggunaan spasi di antara kurung siku
+csharp_space_between_square_brackets = false:silent
+
+# Pengaturan gaya penamaan (.NET naming style)
+dotnet_naming_rule.csharp_uppercase_global_namespace.severity = suggestion
+dotnet_naming_rule.csharp_constant_field.severity = suggestion
+dotnet_naming_rule.csharp_constant_local_variable.severity = suggestion
+dotnet_naming_rule.csharp_constant_parameter.severity = suggestion
+dotnet_naming_rule.csharp_constant_property.severity = suggestion
+dotnet_naming_rule.csharp_constant_readonly_field.severity = suggestion
+dotnet_naming_rule.csharp_constant_static_field.severity = suggestion
+dotnet_naming_rule.csharp_constant_static_readonly_field.severity = suggestion
+
+# Gruping directive impor
+dotnet_sort_system_directives_first = true
+csharp_using_directive_placement = outside_group
+dotnet_group_imports_by_visibility = true

@@ -1,39 +1,41 @@
 ### Get Item List
-GET http://localhost:5083/items
+GET http://localhost:5083/api/items
 
 ### Get Item
-GET http://localhost:5083/items/1
+GET http://localhost:5083/api/items/1
 
 ### Create Item
-POST http://localhost:5083/items
+POST http://localhost:5083/api/items
 Content-Type: application/json
 
 {
     "name": "Item 1",
-    "price": 9.9
+    "price": 9
 }
 
 ### Update Item
-PUT http://localhost:5083/items/1
+PUT http://localhost:5083/api/items/1
 Content-Type: application/json
 
 {
-    "name": "Pizza",
-    "price": 9.99
+    "price": 9
 }
 
 ### Delete Item
-DELETE http://localhost:5083/items/1
+DELETE http://localhost:5083/api/items/3
 
 ### Create Variant
-POST http://localhost:5083/items
+POST http://localhost:5083/api/items
 Content-Type: application/json
 
 {
-    "name": "Pizza - Special Deluxe",
-    "price": 29.99,
+    "name": "Pizza - Small",
+    "price": 5,
     "parentId": 1
 }
 
 ### Get Variant List
-GET http://localhost:5083/items/1/variants
+GET http://localhost:5083/api/items/1/variants
+
+### Delete Variant
+DELETE http://localhost:5083/api/items/3
