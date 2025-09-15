@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ContosoService.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,9 +25,10 @@ namespace ContosoService.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Sku = table.Column<string>(type: "text", nullable: false, defaultValueSql: "'SKU' || lpad(nextval('public.item_sku_seq')::text, 10, '0')"),
+                    Sku = table.Column<string>(type: "text", nullable: false, defaultValueSql: "'SKU-' || lpad(nextval('item_sku_seq')::text, 10, '0')"),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    Price = table.Column<decimal>(type: "numeric", nullable: true),
+                    Price = table.Column<int>(type: "integer", nullable: true),
+                    ParentId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: true)
@@ -35,7 +36,24 @@ namespace ContosoService.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_items_items_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_items_ParentId",
+                table: "items",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_items_Sku",
+                table: "items",
+                column: "Sku",
+                unique: true);
         }
 
         /// <inheritdoc />
