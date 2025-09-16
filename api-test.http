@@ -29,8 +29,8 @@ POST http://localhost:5083/api/items
 Content-Type: application/json
 
 {
-    "name": "Pizza - Small",
-    "price": 5,
+    "name": "Pizza - Deluxe",
+    "price": 15,
     "parentId": 1
 }
 

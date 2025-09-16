@@ -39,6 +39,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseCors(policy => policy
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowAnyOrigin()
+);
+
 app.MapGet("/", () => "Hello World!");
 app.MapControllers();
 
